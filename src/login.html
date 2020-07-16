@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bulma.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Projectwork App</title>
+</head>
+
+<body>
+    <pw-menu></pw-menu>
+    <main class='container '> 
+        <section class="view section" style="width: 50%; margin: 0 auto;">
+            <p class="title">Login</p>
+            <form action="#" method="POST">
+                <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control">
+                        <input name="usr" id="usr" class="input" type="text" placeholder="username">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                        <input name="pwd" id="pwd" class="input" type="password" placeholder="password">
+                    </div>
+                </div>
+                <div class="control">
+                    <input type="submit" class="button is-primary" value="Invia">
+                  </div>
+            </form>
+        </section>
+        <footer class="footer">
+            
+        </footer>
+    </main>
+    <script src="login.js" type="module"></script>
+</body>
+
+</html>

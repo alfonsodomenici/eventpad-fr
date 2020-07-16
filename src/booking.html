@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bulma.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Prenotazioni Cinema Ambiente Valchiusella 2020</title>
+</head>
+
+<body>
+    <pw-menu></pw-menu>
+    <main class='container'>
+        <section class="view section">
+            <h1 class='title is-1 has-text-centered'>Prenota</h1>
+            <p class="title">Evento</p>
+            <article class="card mb-6">
+                
+            </article>
+            <form action="#" method="POST" class="container">
+                <div class="field">
+                    <label class="label">Nome</label>
+                    <div class="control">
+                        <input required name="nome" id="nome" class="input" type="text" placeholder="nome">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Cognome</label>
+                    <div class="control">
+                        <input required name="cognome" id="cognome" class="input" type="text" placeholder="cognome">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Telefono (xxx-xxxxxxx)</label>
+                    <div class="control">
+                        <input required name="tel" id="tel" class="input" type="tel" 
+                        placeholder="telefono"
+                        pattern="[0-9]{3}-[0-9]{7}">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        <input name="email" id="email" class="input" type="email" placeholder="email">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            I agree to the <a href="#">terms and conditions</a>
+                        </label>
+                    </div>
+
+                    <div class="control">
+                        <input type="submit" class="button is-primary" value="Invia">
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="footer">
+
+        </footer>
+    </main>
+
+    <script src="./booking.js" type="module"></script>
+</body>
+
+</html>
