@@ -2,30 +2,43 @@ import { readToken } from './jwt.js';
 export default class Rest {
 
     constructor() {
-        this._baseUrl = 'http://localhost:8080/eventpad/resources';
+        this._baseUrl = `${this.readOrigin()}/eventpad/resources`;
         this._secureHeaders = new Headers();
         this._secureHeaders.append('Authorization', `Bearer ${readToken()}`);
         this._unsecureHeaders = new Headers();
     }
 
-    choiceHeaders(secure){
+    readOrigin() {
+        if (Rest.origin === undefined) {
+            let url = new URL(window.location.href);
+            if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+                Rest.origin = 'http://localhost:8080';
+            } else {
+                Rest.origin = url.origin;
+            }
+
+        }
+        return Rest.origin;
+    }
+
+    choiceHeaders(secure) {
         return secure === true ? this._secureHeaders : this._unsecureHeaders;
     }
 
-    async _getJsonData(endpoint,secure) {
+    async _getJsonData(endpoint, secure) {
         const h = this.choiceHeaders(secure);
         const resp = await fetch(endpoint, {
             method: 'GET',
-            mode: 'cors',
             headers: h
         });
         if (!resp.ok) {
+            console.log("_getJsonData() error.. ", endpoint, resp.statusText);
             throw new Error(resp.statusText);
         }
         return await resp.json();
     }
 
-    async _getBlobData(endpoint,secure) {
+    async _getBlobData(endpoint, secure) {
         const h = this.choiceHeaders(secure);
         const resp = await fetch(endpoint, {
             method: 'GET',
@@ -46,7 +59,7 @@ export default class Rest {
             body: JSON.stringify(json)
         });
         if (!resp.ok) {
-            throw new Error(resp.statusText);
+            throw new Error("Errore nell'invio dei dati. I dati potrebbero essere già presenti.");
         }
         return await resp.json();
     }

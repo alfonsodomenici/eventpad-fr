@@ -3,8 +3,23 @@ import Menu from './Menu.js';
 import EventStore from './EventStore.js';
 import { html, render } from './lib/lit-html.js';
 import { dFull } from './fmt.js';
+const updateBreadcrumb = ({id, quando}) => {
+    const bc = document.querySelector('nav.breadcrumb');
+    const template = html`
+        <ul>
+            <li><a href="index.html">Calendario eventi</a></li>
+            <li><a href="events.html?data=${quando}">${dFull(quando)}</a></li>
+            <li><a href="booking.html?eventId=${id}">prenotazione</a></li>
+            <li class="is-active"> 
+                <a href="${window.location.href}" aria-current="page">conferma</a>
+            </li>
+        </ul>
+    `;
+    render(template,bc);
+}
 
 const renderEvent = (evt) => {
+    updateBreadcrumb(evt)
     const view = document.querySelector('article.event');
     const template = html`
         <div class="card-header">

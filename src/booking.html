@@ -12,7 +12,13 @@
 <body>
     <pw-menu></pw-menu>
     <main class='container'>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            
+        </nav>
         <section class="view section">
+            <div class="container notifiche">
+                
+            </div>
             <h1 class='title is-1 has-text-centered'>Prenota</h1>
             <p class="title">Evento</p>
             <article class="card mb-6">
@@ -20,25 +26,24 @@
             </article>
             <form action="#" method="POST" class="container">
                 <div class="field">
-                    <label class="label">Nome</label>
+                    <label class="label">Nome *</label>
                     <div class="control">
                         <input required name="nome" id="nome" class="input" type="text" placeholder="nome">
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Cognome</label>
+                    <label class="label">Cognome *</label>
                     <div class="control">
                         <input required name="cognome" id="cognome" class="input" type="text" placeholder="cognome">
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Telefono (xxx-xxxxxxx)</label>
+                    <label class="label">Telefono *</label>
                     <div class="control">
-                        <input required name="tel" id="tel" class="input" type="tel" 
-                        placeholder="telefono"
-                        pattern="[0-9]{3}-[0-9]{7}">
+                        <input required name="tel" id="tel" class="input" type="number" 
+                        placeholder="telefono">
                     </div>
                 </div>
 
@@ -52,7 +57,7 @@
                 <div class="field">
                     <div class="control">
                         <label class="checkbox">
-                            <input type="checkbox">
+                            <input required type="checkbox">
                             I agree to the <a href="#">terms and conditions</a>
                         </label>
                     </div>
@@ -63,9 +68,6 @@
                 </div>
             </form>
         </section>
-        <footer class="footer">
-
-        </footer>
     </main>
 
     <script src="./booking.js" type="module"></script>

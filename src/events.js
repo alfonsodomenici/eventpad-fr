@@ -4,6 +4,19 @@ import EventStore from './EventStore.js';
 import {html, render} from './lib/lit-html.js';
 import {dFull} from './fmt.js';
 
+const updateBreadcrumb = _ => {
+    const bc = document.querySelector('nav.breadcrumb');
+    const template = html`
+        <ul>
+            <li><a href="index.html">Calendario eventi</a></li>
+            <li class="is-active"> 
+                <a href="${window.location.href}" aria-current="page">${dFull(data)}</a>
+            </li>
+        </ul>
+    `;
+    render(template,bc);
+}
+
 const renderEvents = (data) => {
     const view = document.querySelector('.view');
     const template = html`
@@ -17,6 +30,7 @@ const renderEvents = (data) => {
 }
 
 const renderEvent = (evt) => {
+    console.log(evt);
     return html`
         <li class="list-item">
             <div class="box mb-2">
@@ -25,16 +39,17 @@ const renderEvent = (evt) => {
                         <div class="container">
                             <p class="title is-3">${dFull(evt.quando)}</p>
                             <p class="subtitle">${evt.luogo}</p>
+                            <p class="subtitle">Ore ${evt.ora}</p>
                             <p><strong>${evt.categoria}</strong></p>
                             <p class="subtitle">${evt.titolo}</p>
                             <p class='mb-4'>${evt.descrizione}</p>
-                            <p class="subtitle has-text-success"><strong>Posti disponibili</strong> <small>${evt.posti - evt.prenotazioni} su ${evt.posti}</small></p>
+                            ${renderDisponinilita(evt)}
                             ${renderAdmin(evt.id)}
                         </div>
                     </div>
                     <nav class="level-right">
                         <div class="buttons">
-                            <button @click=${e => onPrenota(e,evt.id)} class="button is-primary">Prenota</button>
+                            ${renderBtnPrenota(evt)}
                         </div>
                     </nav>
                 </div>
@@ -43,12 +58,34 @@ const renderEvent = (evt) => {
     `;
 }
 
+const renderBtnPrenota = (evt) => {
+    return evt.posti - evt.prenotazioni > 0 ?
+        html`
+            <button @click=${e => onPrenota(e,evt.id)} class="button is-primary">Prenota</button>
+        `
+        :
+
+        html`<button @click=${e => onPrenota(e,evt.id)} disabled class="button is-primary">Prenota</button>`;
+}
+
+const renderDisponinilita = (evt) => {
+    return evt.posti - evt.prenotazioni > 0 ?
+        html`
+            <p class="subtitle has-text-success"><strong>Posti disponibili</strong>
+                 <small>${evt.posti - evt.prenotazioni} su ${evt.posti}</small>
+            </p>
+        `
+        :
+
+        html`<p class='has-text-danger has-text-weight-bold is-size-4'>esaurito</p>`;
+}
+
 const renderAdmin = (eventId) => {
     return isTokenValid() ?
             html`
                 <nav class="level is-mobile">
                     <div class="level-left">
-                        <a  class="level-item " >visualizza prenotazioni </a>
+                        <a  class="level-item " href="review.html?eventId=${eventId}">visualizza prenotazioni </a>
                         <a @click=${e => onEliminaPrenotazioni(e,eventId)} class="level-item" >elimina prenotazioni</a>
                     </div>
                 </nav>
@@ -73,6 +110,7 @@ const onPrenota = (e, eventId) => {
 const url = new URL(document.location.href);
 const data = url.searchParams.get('data');
 const store = new EventStore();
+updateBreadcrumb();
 store.byDate(data)
     .then(json => renderEvents(json));
     

@@ -4,7 +4,22 @@ import EventStore from './EventStore.js';
 import { html, render } from './lib/lit-html.js';
 import { dFull } from './fmt.js';
 
+const updateBreadcrumb = (data) => {
+    const bc = document.querySelector('nav.breadcrumb');
+    const template = html`
+        <ul>
+            <li><a href="index.html">Calendario eventi</a></li>
+            <li><a href="events.html?data=${data}">${dFull(data)}</a></li>
+            <li class="is-active"> 
+                <a href="${window.location.href}" aria-current="page">prenotazione</a>
+            </li>
+        </ul>
+    `;
+    render(template,bc);
+}
+
 const renderEvent = (evt) => {
+    updateBreadcrumb(evt.quando);
     const view = document.querySelector('article');
     const template = html`
         <div class="card-header">
@@ -19,6 +34,25 @@ const renderEvent = (evt) => {
         </div>
     `;
     render(template, view);
+}
+
+const renderError = _ => {
+    const not = document.querySelector('div.notifiche');
+    const template = html`
+        <div class="notification is-danger is-light">
+            <button @click=${e => onCloseNotifica(e)} class="delete"></button>
+            <p class = 'title'> Errore </p>
+            <p>Impossibile effettuare la prenotazione</p>
+            <p>I dati potrebbero essere già presenti.</p>
+        </div>
+    `;
+    render(template,not);
+}
+
+const onCloseNotifica = e => {
+    console.log("close");   
+    const not = document.querySelector('div.notifiche');
+    render(html``,not);
 }
 
 const onPrenota = (e) => {
@@ -36,9 +70,12 @@ const onPrenota = (e) => {
     store.createBooking(eventId, p)
         .then(json => {
             window.location.href = `confirmation.html?eventId=${eventId}&bookingId=${json.id}`;
+        })
+        .catch(ex => {
+            renderError();
         });
 }
-
+console.dir(window.location);
 const url = new URL(document.location.href);
 const eventId = url.searchParams.get('eventId');
 const store = new EventStore();
