@@ -20,25 +20,28 @@ export default class EventStore extends Rest {
         return await this._getJsonData(`${this._url}?data=${data}`, false);
     }
 
-    async createBooking(id, data){
+    async createBooking(id, data) {
         console.log(data);
         return await this._postJsonData(`${this._url}/${id}/bookings`, data, false);
     }
-
-    async findBookings(eventId){
-        return await this._getJsonData(`${this._url}/${eventId}/bookings`,false);
+    
+    async findBookings(eventId) {
+        return await this._getJsonData(`${this._url}/${eventId}/bookings`, false);
     }
 
-    async findBooking(eventId,id){
-        return await this._getJsonData(`${this._url}/${eventId}/bookings/${id}`,false);
+    async findBooking(eventId, id) {
+        return await this._getJsonData(`${this._url}/${eventId}/bookings/${id}`, false);
     }
 
-    async deleteBooking(eventId, id){
-        console.log(eventId,id);
-        return await this._deleteJsonData(`${this._url}/${eventId}/bookings/${id}`,false);
+    async confirmBooking(eventId, id) {
+        return await this._putJsonData(`${this._url}/${eventId}/bookings/${id}/confirm`, {}, false);
     }
 
-    async deleteBookings(eventId){
-        return await this._deleteJsonData(`${this._url}/${eventId}/bookings`,true);
+    async deleteBooking(eventId, id) {
+        return await this._deleteJsonData(`${this._url}/${eventId}/bookings/${id}`, false);
+    }
+
+    async deleteBookings(eventId) {
+        return await this._deleteJsonData(`${this._url}/${eventId}/bookings`, true);
     }
 }

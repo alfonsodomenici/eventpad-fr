@@ -4,7 +4,22 @@ import EventStore from './EventStore.js';
 import { html, render } from './lib/lit-html.js';
 import { dFull } from './fmt.js';
 
+const updateBreadcrumb = (data) => {
+    const bc = document.querySelector('nav.breadcrumb');
+    const template = html`
+        <ul>
+            <li><a href="index.html">Calendario eventi</a></li>
+            <li><a href="events.html?data=${data}">${dFull(data)}</a></li>
+            <li class="is-active"> 
+                <a href="${window.location.href}" aria-current="page">prenotazione</a>
+            </li>
+        </ul>
+    `;
+    render(template,bc);
+}
+
 const renderEvent = (evt) => {
+    updateBreadcrumb(evt.quando);
     const view = document.querySelector('article.event');
     const template = html`
         <div class="card-header">
