@@ -1,5 +1,6 @@
 {
   "imports": {
-    "lit-html": "./lit-html.js"
+    "lit-html": "./lit-html.js",
+    "qrcode-generator-es6": "./qrcode-generator-es6.js"
   }
 }
