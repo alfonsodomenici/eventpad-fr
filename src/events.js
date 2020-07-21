@@ -30,7 +30,6 @@ const renderEvents = (data) => {
 }
 
 const renderEvent = (evt) => {
-    console.log(evt);
     return html`
         <li class="list-item">
             <div class="box mb-2">

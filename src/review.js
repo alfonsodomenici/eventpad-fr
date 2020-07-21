@@ -46,6 +46,7 @@ const renderPersons = (data) => {
                     <th>Cognome</th>
                     <th><abbr title="Telefono">Tel</abbr></th>
                     <th>Email</th>
+                    <th><abbr title="Confermata">Conf</abbr></th>
                     <th></th>
                 </tr>
             </thead>
@@ -65,6 +66,7 @@ const renderPerson = (data) => {
             <td>${data.cognome}</td>
             <td>${data.tel}</td>
             <td>${data.email}</td>
+            <td>${data.confermato ? html`<input type="checkbox" checked disabled style="width: 20px; height: 20px;">` : html`<input type="checkbox" disabled style="width: 20px; height: 20px;">`}</td>
             <td><a @click=${e => onElimina(e,data.id)} href="#">elimina</a></td>
         </tr>
     `;

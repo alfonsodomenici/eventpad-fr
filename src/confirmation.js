@@ -49,8 +49,8 @@ const renderPerson = (data) => {
                 <div class="content">
                     <p><strong>telefono: </strong>${data.tel}</p>
                     <p><strong>email: </strong>${data.email}</p>
-                    <label class="checkbox" disabled>
-                        ${data.confermato ? html`<input type="checkbox" checked>` : html`<input type="checkbox">`}
+                    <label class="checkbox" >
+                        ${data.confermato ? html`<input type="checkbox" checked disabled style="width: 20px; height: 20px;">` : html`<input type="checkbox" disabled style="width: 20px; height: 20px;">`}
                         Prenotazione confermata
                     </label>
                 </div>
@@ -71,7 +71,7 @@ const renderDynamic = (data) => {
     }else if (code === null){
         template = html`
             ${renderQRCode(data.code)}
-            <button @click=${e => onPrint(e)} class="button is-primary">Stampa</button>
+            <button @click=${e => onPrint(e,data)} class="button is-primary">Stampa</button>
             <button @click=${e => onAnnulla(e)} class="button is-danger" title = "Annulla la prenotazione">Annulla</button>
         `;
     }else{
@@ -84,7 +84,6 @@ const renderDynamic = (data) => {
 }
 
 const renderQRCode = (code) => {
-    console.log('render qrcode');
     const el = document.querySelector('div.qrcode');
     const qr = new qrcode(0, 'H');
     qr.addData(`${document.location.href}&code=${code}`);
@@ -121,9 +120,9 @@ const renderInfo = _ => {
         <div class="field">
             <div class="control">
                 <label class="checkbox">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" checked disabled style="width: 20px; height: 20px;">
                     <p class="is-3 is-size-4 has-text-weight-medium">Informativa sul trattamento dei dati personali</p>
-                    <p>Gentile interessato desideriamo informarLa che il “Regolamento Europeo 2016/679 relativo alla protezione delle persone fisiche con riguardo al Trattamento dei Dati Personali, nonché alla libera circolazione di tali dati” prevede la tutela delle persone e di altri soggetti rispetto al trattamento dei dati personali. CINEMAMBIENTE pertanto, in qualità di “Titolare” del trattamento, ai sensi dell’articolo 13 del GDPR, contattabile all’indirizzo XXXXXXXXXx, numero di telefono XXXXXXXXXX,  indirizzo e-mail XXXXXXXXxx , Le fornisce le seguenti informazioni:</p>
+                    <p>Gentile interessato desideriamo informarLa che il “Regolamento Europeo 2016/679 relativo alla protezione delle persone fisiche con riguardo al Trattamento dei Dati Personali, nonché alla libera circolazione di tali dati” prevede la tutela delle persone e di altri soggetti rispetto al trattamento dei dati personali. Associazione cinema Ambiente pertanto, in qualità di “Titolare” del trattamento, ai sensi dell’articolo 13 del GDPR, contattabile presso tel. +39 011 8138860,  indirizzo e-mail festival@cinemambiente.it, Le fornisce le seguenti informazioni:</p>
                     <p>CINEMAMABIENTE tratterà i dati personali, sensibili o sanitari che saranno inseriti nel form direttamente dall’interessato. Il trattamento dei suoi dati ha come base giuridica quella di prenotare la sua partecipazione ad uno degli eventi previsti nell’ambito della manifestazione CINEMAMBIENTEVALCHIUSELLA in conseguenza dell’applicazione delle norme anticontagio COVID (DPCM 14/07/2020), che prevedono il mantenimento dei dati in archivio per 14 giorni dall’evento e la comunicazione di tali dati eventualmente, su richiesta, alle autorità sanitarie (ASL). I dati raccolti non saranno trasferiti al di fuori dell’Unione europea. L’interessato ha diritto ha richiedere la modifica dei dati semplicemente contattando il numero di telefono o la mail del titolare del trattamento. Se i dati indicati con asterisco non verranno conferiti, la prenotazione non potrà essere accettata.</p>
                 </label>
             </div>
@@ -132,10 +131,11 @@ const renderInfo = _ => {
         <div class="field">
             <div class="control">
                 <label class="checkbox">
-                    <input type="checkbox" checked>
+                    <input type="checkbox" checked disabled style="width: 20px; height: 20px;">
                     <p class="is-3 is-size-4 has-text-weight-medium">Dichiarazione dell’interessato</p>
-                    <p>DICHIARO DI ESSERE A CONOSCENZA CHE SE IL GIORNO DELL’EVENTO AVRO’ LA FEBBRE OLTRE 37.5 °C, OPPURE ALTRI SINTOMI INFLUENZALI, NON PARTECIPERO’ ALL’EVENTO; INOLTRE, DICHIARO CHE PARTECIPERO’  ALL’EVENTO SOLO SE NEI PRECEDENTI 14 GIORNI NON AVRO’ AVUTO CONTATTI CON SOGGETTI POSITIVI AL COVID-19 E NON SARO’ STATO NEI PAESI A RISCHIO (RIF. SITO MINISTERO DEGLI AFFARI ESTERI – www.viaggiaresicuri.it).</p>
-                    <p>IN CASO DI QUALSIASI IMPEDIMENTO A PARTECIPARE, CANCELLERO’ LA PRENOTAZIONE CHIAMANDO IL N. xxxxxxxxxxxxX OPPURE VIA MAIL ALL’INDIRIZZO : xxxxxxxxxxxxxxxxxxx.</p>
+                    <p>DICHIARO CHE SE IL GIORNO DELL’EVENTO AVRO’ LA FEBBRE OLTRE 37.5 °C, OPPURE ALTRI SINTOMI INFLUENZALI, OPPURE AVRO’ AVUTO CONTATTI CON SOGGETTI POSITIVI AL COVID-19 O SE SARO’ STATO IN PAESI A RISCHIO (www.viaggiaresicuri,it) NON PARTECIPERO’ ALL’EVENTO.</p>
+                    <br>
+                    <p>IN CASO DI QUALSIASI IMPEDIMENTO A PARTECIPARE, CANCELLERO’ LA PRENOTAZIONE MEDIANTE QRCODE (STAMPATO SULLA PRENOTAZIONE) O CONTATTANDO L’ASSOCIAZIONE.</p>
                 </label>
             </div>
         </div>    
@@ -144,7 +144,6 @@ const renderInfo = _ => {
 }
 
 const onCloseError = e => {
-    console.log("close");
     const not = document.querySelector('div.notifiche');
     render(html``, not);
 }
@@ -169,12 +168,14 @@ const onAnnulla = (e) => {
     }
 }
 
-const onPrint = (e) => {
+const onPrint = (e,data) => {
     document.querySelectorAll('button')
         .forEach(b => b.classList.toggle('is-hidden'));
+    document.querySelector('title').innerHTML = `Prenotazione ${data.nome} ${data.cognome}`;
     window.print();
     document.querySelectorAll('button')
         .forEach(b => b.classList.toggle('is-hidden'));
+        document.querySelector('title').innerHTML = `Prenotazioni Cinema Ambiente Valchiusella 2020`;
 }
 
 const url = new URL(document.location.href);
@@ -184,7 +185,6 @@ const code = url.searchParams.get('code');
 const store = new EventStore();
 store.find(eventId)
     .then(json => {
-        console.log(json);
         renderEvent(json);
         return store.findBooking(eventId, bookingId);
     })

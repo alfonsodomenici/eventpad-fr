@@ -1,8 +1,7 @@
 const dFull = (data) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const result = new Date(data)
-    return result.toLocaleDateString('it-IT', {
-        dateStyle: "full"
-    });
+    return result.toLocaleDateString('it-IT', options);
 }
 
 const dMedium = (data) => {

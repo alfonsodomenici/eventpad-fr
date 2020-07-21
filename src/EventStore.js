@@ -21,12 +21,11 @@ export default class EventStore extends Rest {
     }
 
     async createBooking(id, data) {
-        console.log(data);
         return await this._postJsonData(`${this._url}/${id}/bookings`, data, false);
     }
     
     async findBookings(eventId) {
-        return await this._getJsonData(`${this._url}/${eventId}/bookings`, false);
+        return await this._getJsonData(`${this._url}/${eventId}/bookings`, true);
     }
 
     async findBooking(eventId, id) {

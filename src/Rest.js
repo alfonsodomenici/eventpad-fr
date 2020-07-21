@@ -32,7 +32,6 @@ export default class Rest {
             headers: h
         });
         if (!resp.ok) {
-            console.log("_getJsonData() error.. ", endpoint, resp.statusText);
             throw new Error(resp.statusText);
         }
         return await resp.json();

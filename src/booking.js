@@ -28,6 +28,7 @@ const renderEvent = (evt) => {
         </div>
         <div class="card-content">
             <div class="content">
+                <p><strong>Ore </strong>  ${evt.ora}</p>
                 <p><strong>${evt.categoria}</strong></p>
                 <p class="subtitle">${evt.titolo}</p>
             </div>
@@ -49,8 +50,7 @@ const renderError = _ => {
     render(template,not);
 }
 
-const onCloseNotifica = e => {
-    console.log("close");   
+const onCloseNotifica = e => { 
     const not = document.querySelector('div.notifiche');
     render(html``,not);
 }
