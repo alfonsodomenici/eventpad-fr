@@ -37,11 +37,13 @@ const renderEvent = (evt) => {
 }
 
 const renderPersons = (data) => {
+    counter = 0;
     const view = document.querySelector('div.prenotazioni');
     const template = html`
         <table class="table is-fullwidth">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Nome</th>
                     <th>Cognome</th>
                     <th><abbr title="Telefono">Tel</abbr></th>
@@ -60,8 +62,10 @@ const renderPersons = (data) => {
 
 }
 const renderPerson = (data) => {
+    counter++;
     return html`
         <tr>
+            <td>${counter}</td>
             <td>${data.nome}</td>
             <td>${data.cognome}</td>
             <td>${data.tel}</td>
@@ -86,6 +90,7 @@ const onPrint = (e) => {
     window.print();
 }
 
+let counter = 0;
 const url = new URL(document.location.href);
 const eventId = url.searchParams.get('eventId');
 const store = new EventStore();

@@ -44,7 +44,7 @@ const renderError = _ => {
             <button @click=${e => onCloseNotifica(e)} class="delete"></button>
             <p class = 'title'> Errore </p>
             <p>Impossibile effettuare la prenotazione</p>
-            <p>I dati potrebbero essere già presenti.</p>
+            <p>I dati potrebbero essere già presenti oppure i posti esauriti</p>
         </div>
     `;
     render(template,not);
@@ -75,7 +75,6 @@ const onPrenota = (e) => {
             renderError();
         });
 }
-console.dir(window.location);
 const url = new URL(document.location.href);
 const eventId = url.searchParams.get('eventId');
 const store = new EventStore();
